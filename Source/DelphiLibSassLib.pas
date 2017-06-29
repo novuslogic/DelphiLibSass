@@ -38,6 +38,7 @@ type
 
      procedure sass_delete_compiler(Sass_Compiler: TSass_Compiler);
      procedure sass_delete_file_context(Sass_File_Context: TSass_File_Context);
+     function sass_make_data_context(source_string: PAnsiChar): TSass_Data_Context;
 
      property DLLLoaded: boolean
       read fbDLLLoaded;
@@ -308,6 +309,9 @@ begin
 end;
 
 
+
+
+
 procedure TDelphiLibSassLib.sass_delete_file_context(Sass_File_Context: TSass_File_Context);
 var
   fsass_delete_file_context: Tsass_delete_file_context;
@@ -322,5 +326,18 @@ begin
   fsass_delete_file_context(Sass_File_Context);
 end;
 
+function TDelphiLibSassLib.sass_make_data_context(source_string: PAnsiChar): TSass_Data_Context;
+var
+  fsass_make_data_context: Tsass_make_data_context;
+begin
+  if fbDllLoaded  = false then
+    raise EDelphiLibSassError.Create('DLL not loaded');
+
+  @fsass_make_data_context := GetProcAddress(fDLLHandle, 'sass_make_data_context');
+  if (@fsass_make_data_context = nil) then
+    raise EDelphiLibSassError.Create('GetProcAddress cannot find sass_make_data_context');
+
+  fsass_make_data_context(source_string);
+end;
 
 end.

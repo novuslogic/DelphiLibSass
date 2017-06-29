@@ -9,12 +9,11 @@ const
   cLibSassName = 'libsass.dll';
 
 type
-  TIntPtr = Pointer;
-
-  TSass_File_Context = TIntPtr;
-  TSass_Compiler = TIntPtr;
-  TSass_Context = TIntPtr;
-  TSass_included_files =  TIntPtr;
+  TSass_File_Context = Pointer;
+  TSass_Compiler = Pointer;
+  TSass_Context = Pointer;
+  TSass_included_files = Pointer;
+  TSass_Data_Context = Pointer;
 
   PSass_AnsiString = ^PAnsiChar;
   PSass_AnsiStringArray = array of PSass_AnsiString;
@@ -36,6 +35,7 @@ type
   Tsass_context_get_included_files = function(Sass_Context: tSass_Context): TSass_included_files; StdCall;
   Tsass_delete_compiler = procedure (Sass_Compiler: TSass_Compiler);StdCall;
   Tsass_delete_file_context = procedure(Sass_File_Context: TSass_File_Context);StdCall;
+  Tsass_make_data_context =  function(source_string: PAnsiChar): TSass_Data_Context; StdCall;
 
   TSassOutputStyle = (Nested, Expanded, Compact, Compressed);
 

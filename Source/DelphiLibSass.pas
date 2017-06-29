@@ -37,6 +37,7 @@ type
   public
     class function LoadInstance: TDelphiLibSass;
 
+    function ConvertToCss(aScss: string): TScssResult;
     function ConvertFileToCss(aFilename: String): TScssResult;
 
   end;
@@ -49,6 +50,18 @@ class function TDelphiLibSass.LoadInstance: TDelphiLibSass;
 begin
   Result := TDelphiLibSass.Create;
   Result.LoadDLL;
+end;
+
+function TDelphiLibSass.ConvertToCss(aScss: string): TScssResult;
+Var
+  fSass_Data_Context: TSass_Data_Context;
+begin
+  Result := NIL;
+
+  if aScss = '' then Exit;
+
+  fSass_Data_Context := sass_make_data_context(LibSassString(aScss));
+                
 end;
 
 
