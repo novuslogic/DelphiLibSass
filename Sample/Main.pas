@@ -4,14 +4,16 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, DelphiLibSass;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, DelphiLibSass,
+  Vcl.ComCtrls;
 
 type
   TfrmMain = class(TForm)
-    btnLibVersion: TButton;
-    Button1: TButton;
-    btnsasstocss1: TButton;
     SaSSOpenDialog: TOpenDialog;
+    PageControl: TPageControl;
+    TSConvertFileToCss: TTabSheet;
+    memoCCS: TMemo;
+    btnsasstocss1: TButton;
     procedure FormShow(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure btnLibVersionClick(Sender: TObject);
@@ -38,23 +40,19 @@ begin
 end;
 
 procedure TfrmMain.btnsasstocss1Click(Sender: TObject);
+Var
+  FScssResult: TScssResult;
 begin
-//  FDelphiLibSass.
-
   if SASSOpenDialog.Execute then
     begin
-      FDelphiLibSass.ConvertFileToCss(SASSOpenDialog.Filename);
+      FScssResult := FDelphiLibSass.ConvertFileToCss(SASSOpenDialog.Filename);
+      if Assigned(FScssResult) then
+        begin
+          memoCCS.Text := FScssResult.CSS;
 
-
-
-
-
-
-
+          FScssResult.Free;
+        end;
     end;
-
-
-
 end;
 
 procedure TfrmMain.Button1Click(Sender: TObject);

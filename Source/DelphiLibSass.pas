@@ -82,6 +82,7 @@ begin
     if Not Assigned(FCompiler)  then
       raise EDelphiLibSassError.Create('sass_make_file_compiler failed');
 
+
     sass_compiler_parse(fcompiler);
     CheckStatus(fcontext);
 

@@ -2,8 +2,8 @@ object frmMain: TfrmMain
   Left = 0
   Top = 0
   Caption = 'DelphiLibSass Sample'
-  ClientHeight = 283
-  ClientWidth = 582
+  ClientHeight = 362
+  ClientWidth = 679
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -15,35 +15,36 @@ object frmMain: TfrmMain
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object btnLibVersion: TButton
-    Left = 8
-    Top = 16
-    Width = 75
-    Height = 25
-    Caption = 'LibVersion'
+  object PageControl: TPageControl
+    Left = 0
+    Top = 0
+    Width = 679
+    Height = 362
+    ActivePage = TSConvertFileToCss
+    Align = alClient
     TabOrder = 0
-    OnClick = btnLibVersionClick
-  end
-  object Button1: TButton
-    Left = 96
-    Top = 16
-    Width = 97
-    Height = 25
-    Caption = 'language_version'
-    TabOrder = 1
-    OnClick = Button1Click
-  end
-  object btnsasstocss1: TButton
-    Left = 208
-    Top = 16
-    Width = 75
-    Height = 25
-    Caption = 'sass to css 1'
-    TabOrder = 2
-    OnClick = btnsasstocss1Click
+    object TSConvertFileToCss: TTabSheet
+      Caption = 'ConvertFileToCss'
+      object memoCCS: TMemo
+        Left = 7
+        Top = 34
+        Width = 657
+        Height = 295
+        TabOrder = 0
+      end
+      object btnsasstocss1: TButton
+        Left = 5
+        Top = 3
+        Width = 75
+        Height = 25
+        Caption = 'Load SCSS'
+        TabOrder = 1
+        OnClick = btnsasstocss1Click
+      end
+    end
   end
   object SaSSOpenDialog: TOpenDialog
-    Left = 368
-    Top = 144
+    DefaultExt = '*.scss'
+    Left = 152
   end
 end
