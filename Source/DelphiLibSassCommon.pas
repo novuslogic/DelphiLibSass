@@ -34,8 +34,8 @@ type
   Tsass_context_get_output_string = function(Sass_Context: tSass_Context): PAnsiChar; StdCall;
   Tsass_context_get_included_files_size = function(Sass_Context: tSass_Context): integer; StdCall;
   Tsass_context_get_included_files = function(Sass_Context: tSass_Context): TSass_included_files; StdCall;
-  Tsass_delete_compiler = procedure (Sass_Compiler: TSass_Compiler);
-  Tsass_delete_file_context = procedure(Sass_File_Context: TSass_File_Context);
+  Tsass_delete_compiler = procedure (Sass_Compiler: TSass_Compiler);StdCall;
+  Tsass_delete_file_context = procedure(Sass_File_Context: TSass_File_Context);StdCall;
 
   TSassOutputStyle = (Nested, Expanded, Compact, Compressed);
 
