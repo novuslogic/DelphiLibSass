@@ -3,7 +3,7 @@ object frmMain: TfrmMain
   Top = 0
   Caption = 'DelphiLibSass Sample'
   ClientHeight = 362
-  ClientWidth = 679
+  ClientWidth = 739
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,22 +18,29 @@ object frmMain: TfrmMain
   object PageControl: TPageControl
     Left = 0
     Top = 0
-    Width = 679
+    Width = 739
     Height = 362
-    ActivePage = TSConvertFileToCss
+    ActivePage = ConvertToCss
     Align = alClient
     TabOrder = 0
+    ExplicitWidth = 679
     object TSConvertFileToCss: TTabSheet
-      Caption = 'ConvertFileToCss'
+      Caption = 'ConvertFileToCss Example'
+      ExplicitWidth = 671
       object memoCCS: TMemo
-        Left = 7
-        Top = 34
-        Width = 657
+        Left = 0
+        Top = 39
+        Width = 731
         Height = 295
+        Align = alBottom
+        Anchors = [akLeft, akTop, akRight, akBottom]
         TabOrder = 0
+        ExplicitLeft = 5
+        ExplicitTop = 34
+        ExplicitWidth = 716
       end
       object btnsasstocss1: TButton
-        Left = 5
+        Left = 3
         Top = 3
         Width = 75
         Height = 25
@@ -42,9 +49,48 @@ object frmMain: TfrmMain
         OnClick = btnsasstocss1Click
       end
     end
+    object ConvertToCss: TTabSheet
+      Caption = 'ConvertToCss Example'
+      ImageIndex = 1
+      ExplicitLeft = 8
+      ExplicitTop = 28
+      ExplicitWidth = 671
+      object btnsasstocss2: TButton
+        Left = 3
+        Top = 3
+        Width = 75
+        Height = 25
+        Caption = 'Load SCSS'
+        TabOrder = 0
+        OnClick = btnsasstocss2Click
+      end
+      object memoSCSS: TMemo
+        Left = 3
+        Top = 34
+        Width = 320
+        Height = 279
+        TabOrder = 1
+      end
+      object btnConvertCSS: TButton
+        Left = 327
+        Top = 136
+        Width = 75
+        Height = 25
+        Caption = 'Convert CSS'
+        TabOrder = 2
+      end
+      object Memo1: TMemo
+        Left = 406
+        Top = 34
+        Width = 320
+        Height = 279
+        TabOrder = 3
+      end
+    end
   end
   object SaSSOpenDialog: TOpenDialog
     DefaultExt = '*.scss'
-    Left = 152
+    Left = 360
+    Top = 8
   end
 end

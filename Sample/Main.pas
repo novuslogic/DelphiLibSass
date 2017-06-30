@@ -14,11 +14,15 @@ type
     TSConvertFileToCss: TTabSheet;
     memoCCS: TMemo;
     btnsasstocss1: TButton;
+    ConvertToCss: TTabSheet;
+    btnsasstocss2: TButton;
+    memoSCSS: TMemo;
+    btnConvertCSS: TButton;
+    Memo1: TMemo;
     procedure FormShow(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure btnLibVersionClick(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
     procedure btnsasstocss1Click(Sender: TObject);
+    procedure btnsasstocss2Click(Sender: TObject);
   private
     { Private declarations }
     FDelphiLibSass: TDelphiLibSass;
@@ -33,11 +37,6 @@ implementation
 
 {$R *.dfm}
 
-// https://github.com/sass/libsass/blob/master/docs/api-doc.md
-procedure TfrmMain.btnLibVersionClick(Sender: TObject);
-begin
-   Showmessage(FDelphiLibSass.libsass_version);
-end;
 
 procedure TfrmMain.btnsasstocss1Click(Sender: TObject);
 Var
@@ -55,13 +54,11 @@ begin
     end;
 end;
 
-procedure TfrmMain.Button1Click(Sender: TObject);
+procedure TfrmMain.btnsasstocss2Click(Sender: TObject);
 begin
-  Showmessage(FDelphiLibSass.libsass_language_version);
+  if SASSOpenDialog.Execute then
+    memoSCSS.Lines.LoadFromFile(SASSOpenDialog.Filename);
 end;
-
-// https://github.com/sass/libsass/blob/master/docs/api-context-example.md
-
 
 procedure TfrmMain.FormDestroy(Sender: TObject);
 begin
