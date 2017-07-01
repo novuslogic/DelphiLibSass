@@ -20,7 +20,7 @@ object frmMain: TfrmMain
     Top = 0
     Width = 739
     Height = 362
-    ActivePage = ConvertToCss
+    ActivePage = TSConvertFileToCss
     Align = alClient
     TabOrder = 0
     ExplicitWidth = 679

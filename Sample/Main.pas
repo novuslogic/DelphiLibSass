@@ -50,8 +50,6 @@ begin
 
       FScssResult.Free;
     end;
-
-
 end;
 
 procedure TfrmMain.btnsasstocss1Click(Sender: TObject);
