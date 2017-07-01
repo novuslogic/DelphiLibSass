@@ -27,7 +27,7 @@ object frmMain: TfrmMain
     object TSConvertFileToCss: TTabSheet
       Caption = 'ConvertFileToCss Example'
       ExplicitWidth = 671
-      object memoCCS: TMemo
+      object memoCCS1: TMemo
         Left = 0
         Top = 39
         Width = 731
@@ -78,8 +78,9 @@ object frmMain: TfrmMain
         Height = 25
         Caption = 'Convert CSS'
         TabOrder = 2
+        OnClick = btnConvertCSSClick
       end
-      object Memo1: TMemo
+      object memoCCS2: TMemo
         Left = 406
         Top = 34
         Width = 320

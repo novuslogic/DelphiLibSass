@@ -35,7 +35,10 @@ type
   Tsass_context_get_included_files = function(Sass_Context: tSass_Context): TSass_included_files; StdCall;
   Tsass_delete_compiler = procedure (Sass_Compiler: TSass_Compiler);StdCall;
   Tsass_delete_file_context = procedure(Sass_File_Context: TSass_File_Context);StdCall;
+  Tsass_delete_data_context = procedure (Sass_Data_Context: TSass_Data_Context);StdCall;
+
   Tsass_make_data_context =  function(source_string: PAnsiChar): TSass_Data_Context; StdCall;
+  Tsass_make_data_compiler = function(Sass_Data_Context: TSass_Data_Context): TSass_Compiler; StdCall;
 
   TSassOutputStyle = (Nested, Expanded, Compact, Compressed);
 

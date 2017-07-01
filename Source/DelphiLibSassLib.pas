@@ -7,11 +7,12 @@ Uses DelphiLibSassCommon, Wintypes, WinProcs, System.SysUtils;
 type
    tDelphiLibSassLib = class
    private
+     fsLibraryFilename: String;
      fbDLLLoaded: boolean;
      fDLLHandle: THandle;
    protected
    public
-     constructor Create;
+     constructor Create(aLibraryFilename: String = '');
      destructor Destroy;
 
      procedure LoadDll;
@@ -24,21 +25,20 @@ type
      function sass_make_file_compiler(sass_file_context: TSass_File_Context): TSass_Compiler;
      function sass_compiler_parse(Sass_Compiler: TSass_Compiler): integer;
      function sass_compiler_execute(Sass_Compiler: TSass_Compiler): integer;
-
      function sass_context_get_error_status(Sass_Context: tSass_Context): integer;
      function sass_context_get_error_column(Sass_Context: tSass_Context): integer;
      function sass_context_get_error_line(Sass_Context: tSass_Context): integer;
      function sass_context_get_included_files_size(Sass_Context: tSass_Context): integer;
      function sass_context_get_included_files(Sass_Context: tSass_Context): TSass_included_files;
-
      function sass_context_get_error_file(Sass_Context: tSass_Context): string;
      function sass_context_get_error_message(Sass_Context: tSass_Context): string;
      function sass_context_get_error_text(Sass_Context: tSass_Context): string;
      function sass_context_get_output_string(Sass_Context: tSass_Context): string;
-
      procedure sass_delete_compiler(Sass_Compiler: TSass_Compiler);
      procedure sass_delete_file_context(Sass_File_Context: TSass_File_Context);
+     procedure sass_delete_data_context(Sass_Data_Context: TSass_Data_Context);
      function sass_make_data_context(source_string: PAnsiChar): TSass_Data_Context;
+     function sass_make_data_compiler(Sass_Data_Context: TSass_Data_Context): TSass_Compiler;
 
      property DLLLoaded: boolean
       read fbDLLLoaded;
@@ -46,9 +46,9 @@ type
 
 implementation
 
-constructor TDelphiLibSassLib.Create;
+constructor TDelphiLibSassLib.Create(aLibraryFilename: String = '');
 begin
-  //
+  fsLibraryFilename := aLibraryFilename;
 end;
 
 destructor TDelphiLibSassLib.Destroy;
@@ -62,7 +62,10 @@ begin
 
   fbDLLLoaded := false;
 
-  fDLLHandle := LoadLibrary(cLibSassName);
+  if fsLibraryFilename = '' then
+    fsLibraryFilename := cLibSassName;
+
+  fDLLHandle := LoadLibrary(PWideChar(fsLibraryFilename));
   if fDLLHandle =0 then
     raise EDelphiLibSassError.Create('Unable to Load DLL');
 
@@ -309,9 +312,6 @@ begin
 end;
 
 
-
-
-
 procedure TDelphiLibSassLib.sass_delete_file_context(Sass_File_Context: TSass_File_Context);
 var
   fsass_delete_file_context: Tsass_delete_file_context;
@@ -326,6 +326,21 @@ begin
   fsass_delete_file_context(Sass_File_Context);
 end;
 
+
+procedure TDelphiLibSassLib.sass_delete_data_context(Sass_Data_Context: TSass_Data_Context);
+var
+  fsass_delete_data_context: Tsass_delete_data_context;
+begin
+  if fbDllLoaded  = false then
+    raise EDelphiLibSassError.Create('DLL not loaded');
+
+  @fsass_delete_data_context := GetProcAddress(fDLLHandle, 'sass_delete_data_context');
+  if (@fsass_delete_data_context = nil) then
+    raise EDelphiLibSassError.Create('GetProcAddress cannot find sass_delete_data_context');
+
+  fsass_delete_data_context(Sass_Data_Context);
+end;
+
 function TDelphiLibSassLib.sass_make_data_context(source_string: PAnsiChar): TSass_Data_Context;
 var
   fsass_make_data_context: Tsass_make_data_context;
@@ -337,7 +352,22 @@ begin
   if (@fsass_make_data_context = nil) then
     raise EDelphiLibSassError.Create('GetProcAddress cannot find sass_make_data_context');
 
-  fsass_make_data_context(source_string);
+  result := fsass_make_data_context(source_string);
+end;
+
+
+function TDelphiLibSassLib.sass_make_data_compiler(Sass_Data_Context: TSass_Data_Context): TSass_Compiler;
+var
+  fsass_make_data_compiler: Tsass_make_data_compiler;
+begin
+  if fbDllLoaded  = false then
+    raise EDelphiLibSassError.Create('DLL not loaded');
+
+  @fsass_make_data_compiler := GetProcAddress(fDLLHandle, 'sass_make_data_compiler');
+  if (@fsass_make_data_compiler = nil) then
+    raise EDelphiLibSassError.Create('GetProcAddress cannot find sass_make_data_compiler');
+
+  result := fsass_make_data_compiler(Sass_Data_Context);
 end;
 
 end.

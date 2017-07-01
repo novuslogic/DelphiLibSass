@@ -37,8 +37,9 @@ type
   public
     class function LoadInstance: TDelphiLibSass;
 
-    function ConvertToCss(aScss: string): TScssResult;
-    function ConvertFileToCss(aFilename: String): TScssResult;
+    function ConvertToCss(const aScss: string): TScssResult;
+    function ConvertFileToCss(const aFilename: String): TScssResult;
+    function CompileScssToCss(const aSass_Context: tSass_Context; const aSass_Compiler: tSass_Compiler): TScssResult;
 
   end;
 
@@ -52,37 +53,78 @@ begin
   Result.LoadDLL;
 end;
 
-function TDelphiLibSass.ConvertToCss(aScss: string): TScssResult;
+function TDelphiLibSass.ConvertToCss(const aScss: string): TScssResult;
 Var
   fSass_Data_Context: TSass_Data_Context;
+  fSass_Context: TSass_Context;
+  fSass_Compiler: TSass_Compiler;
 begin
   Result := NIL;
 
   if aScss = '' then Exit;
 
   fSass_Data_Context := sass_make_data_context(LibSassString(aScss));
-                
+  if Not Assigned(fSass_Data_Context)  then
+      raise EDelphiLibSassError.Create('sass_make_data_context failed');
+  fSass_Context := fSass_Data_Context;
+
+  Try
+    fSass_Compiler := sass_make_data_compiler(fSass_Data_Context);
+
+    Result := CompileScssToCss(fSass_Context,fSass_Compiler);
+
+  Finally
+    //sass_delete_compiler(fSass_Compiler);  Pointer issue ??
+
+    sass_delete_data_context(fSass_Context);
+  End;
 end;
 
-
-function TDelphiLibSass.ConvertFileToCss(aFilename: String): TScssResult;
+function TDelphiLibSass.CompileScssToCss(const aSass_Context: tSass_Context; const aSass_Compiler: tSass_Compiler): TScssResult;
 var
-  FfileContext: TSass_File_Context;
-  FCompiler: TSass_Compiler;
-  FContext: TSass_Context;
   fscss: string;
   FincludedFiles: tStrings;
   fsmap: String;
+begin
+  Try
+    sass_compiler_parse(aSass_Compiler);
+    CheckStatus(aSass_Context);
+
+    sass_compiler_execute(aSass_Compiler);
+    CheckStatus(aSass_Context);
+
+    fscss := sass_context_get_output_string(aSass_Context);
+  Finally
+    (*
+    fsmap := '';
+
+    if (options != null && options.GenerateSourceMap)
+    {
+       lsMap = LibSass.sass_context_get_source_map_string(context);
+    }
+    *)
+    FincludedFiles := GetIncludedFiles(aSass_Context);
+
+    Result := TScssResult.Create(fsCss, fsMap, FincludedFiles);
+  End;
+end;
+
+
+function TDelphiLibSass.ConvertFileToCss(const aFilename: String): TScssResult;
+var
+  fSass_File_Context: TSass_File_Context;
+  fSass_Compiler: TSass_Compiler;
+  fSass_Context: TSass_Context;
 begin
   Result := NIL;
 
   if not FileExists(aFilename) then Exit;
 
   Try
-    FfileContext := sass_make_file_context(LibSassString(aFilename));
-    if Not Assigned(FfileContext)  then
+    fSass_File_Context := sass_make_file_context(LibSassString(aFilename));
+    if Not Assigned(fSass_File_Context)  then
       raise EDelphiLibSassError.Create('sass_make_file_context failed');
-    FContext := FfileContext;
+    fSass_Context := fSass_File_Context;
     (*
     if (options.InputFile == null)
     {
@@ -91,34 +133,15 @@ begin
     tryImportHandle = MarshalOptions(fileContext, options);
     *)
 
-    FCompiler := sass_make_file_compiler(FfileContext);
-    if Not Assigned(FCompiler)  then
+    fSass_Compiler := sass_make_file_compiler(fSass_File_Context);
+    if Not Assigned(fSass_Compiler)  then
       raise EDelphiLibSassError.Create('sass_make_file_compiler failed');
 
-
-    sass_compiler_parse(fcompiler);
-    CheckStatus(fcontext);
-
-    sass_compiler_execute(fcompiler);
-    CheckStatus(fcontext);
-
-    fscss := sass_context_get_output_string(fcontext);
-    fsmap := '';
-
-
-    (*
-    if (options != null && options.GenerateSourceMap)
-    {
-       lsMap = LibSass.sass_context_get_source_map_string(context);
-    }
-    *)
-    FincludedFiles := GetIncludedFiles(fcontext);
+    Result := CompileScssToCss(fSass_Context,fSass_Compiler);
   Finally
-    Result := TScssResult.Create(fsCss, fsMap, FincludedFiles);
+    sass_delete_compiler(fSass_Compiler);
 
-    sass_delete_compiler(fcompiler);
-
-    sass_delete_file_context(fcontext);
+    sass_delete_file_context(fSass_Context);
   End;
 
 end;
@@ -182,7 +205,7 @@ end;
 
 destructor TScssResult.Destroy;
 begin
-  fIncludeFiles.Free;
+  if Assigned(fIncludeFiles) then fIncludeFiles.Free;
 end;
 
 
