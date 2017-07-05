@@ -2,7 +2,7 @@ unit DelphiLibSass;
 
 interface
 
-uses DelphiLibSassCommon, DelphiLibSassLib, SysUtils, classes;
+uses DelphiLibSassCommon, DelphiLibSassLib, SysUtils, classes, System.Generics.Collections;
 
 
 
@@ -12,19 +12,22 @@ type
   private
     fsCSS: string;
     fsMap: string;
-    fIncludeFiles: tStrings;
+    fIncludeFiles: TList<String>;
   public
-    constructor Create(const aCSS: string; const aMap: string; const aIncludeFiles: tStrings);
+    constructor Create;
     destructor Destroy;
 
     property CSS: string
-      read fsCSS;
+      read fsCSS
+      write fsCSS;
 
     property Map: string
-      read fsMap;
+      read fsMap
+      write fsMap;
 
-    property IncludeFiles: tStrings
-      read fIncludeFiles;
+    property IncludeFiles: TList<String>
+      read fIncludeFiles
+      write fIncludeFiles;
   end;
 
 
@@ -32,8 +35,6 @@ type
   protected
   private
     procedure CheckStatus(Sass_Context: tSass_Context);
-    function  GetIncludedFiles(Sass_Context: tSass_Context): TStrings;
-
   public
     class function LoadInstance: TDelphiLibSass;
 
@@ -83,8 +84,12 @@ end;
 function TDelphiLibSass.CompileScssToCss(const aSass_Context: tSass_Context; const aSass_Compiler: tSass_Compiler): TScssResult;
 var
   fscss: string;
-  FincludedFiles: tStrings;
+  fsIncludeFile: string;
   fsmap: String;
+  fifilesCount: Integer;
+  fSass_included_files: TSass_included_files;
+  I: integer;
+  fSass_IncludeFiles :  Array of TSass_IncludeFiles;
 begin
   Try
     sass_compiler_parse(aSass_Compiler);
@@ -94,18 +99,33 @@ begin
     CheckStatus(aSass_Context);
 
     fscss := sass_context_get_output_string(aSass_Context);
+
+    fsmap := '';
   Finally
     (*
-    fsmap := '';
+
 
     if (options != null && options.GenerateSourceMap)
     {
        lsMap = LibSass.sass_context_get_source_map_string(context);
     }
     *)
-    FincludedFiles := GetIncludedFiles(aSass_Context);
+    fifilesCount := sass_context_get_included_files_size(aSass_Context);
 
-    Result := TScssResult.Create(fsCss, fsMap, FincludedFiles);
+    Result := TScssResult.Create;
+    Result.CSS := fsCSS;
+    Result.Map := fsMap;
+
+    if fifilesCount <> 0 then
+      begin
+        SetLength(fSass_IncludeFiles , fifilescount);
+
+        fSass_IncludeFiles  := sass_context_get_included_files(aSass_Context);
+
+ //       for I := 0 to fifilesCount-1 do
+   //       Result.IncludeFiles.Add(fSass_IncludeFiles[i].IncludeFile );
+
+      end;
   End;
 end;
 
@@ -168,39 +188,10 @@ begin
     end;
 end;
 
-function TDelphiLibSass.GetIncludedFiles(Sass_Context: tSass_Context): tStrings;
-var
-  fifilesCount: Integer;
-  fSass_included_files: TSass_included_files;
-  fSass_AnsiStringArray: PSass_AnsiStringArray ;
-  I: integer;
-begin
-  Result := NIL;
-
-  fifilesCount := sass_context_get_included_files_size(Sass_Context);
-
-  if fifilesCount = 0 then Exit;
-
-  SetLength(fSass_AnsiStringArray, fifilesCount);
-
-  Result := tStringList.Create;
-
-  fSass_AnsiStringArray := sass_context_get_included_files(Sass_Context);
-
-  for I := 0 to fifilesCount-1 do
-    Result.Add(PAnsiChar(fSass_AnsiStringArray[i]));
-
-end;
-
-
 // TScssResult
-constructor TScssResult.Create(const aCSS: string; const aMap: string; const aIncludeFiles: tStrings);
+constructor TScssResult.Create;
 begin
-  fsCSS := aCSS;
-
-  fsMap := aMap;
-
-  fIncludeFiles := aIncludeFiles;
+  fIncludeFiles:= TList<String>.Create;
 end;
 
 destructor TScssResult.Destroy;

@@ -1,2 +1,3 @@
 # DelphiLibSass
-Delphi wrapper for LibSass
+
+DelphiLibSass is Delphi wrapper around [libsass](https://github.com/sass/libsass) a C/C++ implementation of a Sass compiler.

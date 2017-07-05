@@ -15,9 +15,10 @@ type
   TSass_included_files = Pointer;
   TSass_Data_Context = Pointer;
 
-  PSass_AnsiString = ^PAnsiChar;
-  PSass_AnsiStringArray = array of PSass_AnsiString;
-
+  TSass_IncludeFiles = record
+    IncludeFile: String;
+  end;
+  
   Tlibsass_version = function(): PAnsiChar; StdCall;
   Tlibsass_language_version = function(): PAnsiChar; StdCall;
   Tsass_make_file_context = function(input_path: PAnsiChar):  TSass_File_Context; StdCall;
