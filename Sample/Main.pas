@@ -77,6 +77,8 @@ end;
 procedure TfrmMain.FormDestroy(Sender: TObject);
 begin
   FreeAndNil(FDelphiLibSass);
+
+  ReportMemoryLeaksOnShutdown := true;
 end;
 
 procedure TfrmMain.FormShow(Sender: TObject);

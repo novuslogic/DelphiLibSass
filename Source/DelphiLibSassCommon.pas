@@ -15,8 +15,10 @@ type
   TSass_included_files = Pointer;
   TSass_Data_Context = Pointer;
 
+  //{$X+}
+  PSass_IncludeFiles = ^TSass_IncludeFiles;
   TSass_IncludeFiles = record
-    IncludeFile: String;
+    IncludeFile: PAnsiChar;
   end;
   
   Tlibsass_version = function(): PAnsiChar; StdCall;

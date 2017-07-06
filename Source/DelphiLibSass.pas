@@ -15,7 +15,7 @@ type
     fIncludeFiles: TList<String>;
   public
     constructor Create;
-    destructor Destroy;
+    destructor Destroy; override;
 
     property CSS: string
       read fsCSS
@@ -75,7 +75,7 @@ begin
     Result := CompileScssToCss(fSass_Context,fSass_Compiler);
 
   Finally
-    //sass_delete_compiler(fSass_Compiler);  Pointer issue ??
+    //sass_delete_compiler(fSass_Compiler);  //Pointer issue ??
 
     sass_delete_data_context(fSass_Context);
   End;
@@ -89,7 +89,7 @@ var
   fifilesCount: Integer;
   fSass_included_files: TSass_included_files;
   I: integer;
-  fSass_IncludeFiles :  Array of TSass_IncludeFiles;
+  fSass_IncludeFiles : PSass_IncludeFiles;
 begin
   Try
     sass_compiler_parse(aSass_Compiler);
@@ -118,13 +118,19 @@ begin
 
     if fifilesCount <> 0 then
       begin
-        SetLength(fSass_IncludeFiles , fifilescount);
+        new(fSass_IncludeFiles);
 
-        fSass_IncludeFiles  := sass_context_get_included_files(aSass_Context);
+//        Length(fSass_IncludeFiles.IncludeFile, fifilesCount);
+
+      // fSass_IncludeFiles := sass_context_get_included_files(aSass_Context);
+
+
+       //fSass_IncludeFiles.IncludeFile := NIL;
 
  //       for I := 0 to fifilesCount-1 do
    //       Result.IncludeFiles.Add(fSass_IncludeFiles[i].IncludeFile );
 
+        Dispose(fSass_IncludeFiles);
       end;
   End;
 end;

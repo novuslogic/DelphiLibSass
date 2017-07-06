@@ -23,10 +23,8 @@ object frmMain: TfrmMain
     ActivePage = TSConvertFileToCss
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 679
     object TSConvertFileToCss: TTabSheet
       Caption = 'ConvertFileToCss Example'
-      ExplicitWidth = 671
       object memoCCS1: TMemo
         Left = 0
         Top = 39
@@ -35,9 +33,6 @@ object frmMain: TfrmMain
         Align = alBottom
         Anchors = [akLeft, akTop, akRight, akBottom]
         TabOrder = 0
-        ExplicitLeft = 5
-        ExplicitTop = 34
-        ExplicitWidth = 716
       end
       object btnsasstocss1: TButton
         Left = 3
@@ -55,6 +50,7 @@ object frmMain: TfrmMain
       ExplicitLeft = 8
       ExplicitTop = 28
       ExplicitWidth = 671
+      ExplicitHeight = 0
       object btnsasstocss2: TButton
         Left = 3
         Top = 3
