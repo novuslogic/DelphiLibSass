@@ -37,6 +37,18 @@ Finally
   FDelphiLibSass.Free; 
 end;
 ```
+## Sample
 
+Basic example on how to use the Delphi wrapper
+
+https://github.com/novuslogic/DelphiLibSass/tree/master/Sample
+
+## Known Issues
+
+- sass_context_get_included_files buffer overflows within Delphi.
+
+## ToDo
+
+To include TSass_Option class._
 
 
