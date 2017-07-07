@@ -27,14 +27,13 @@ type
   protected
   private
     procedure CheckStatus(Sass_Context: tSass_Context);
+    function CompileScssToCss(const aSass_Context: tSass_Context;
+      const aSass_Compiler: tSass_Compiler): TScssResult;
   public
     class function LoadInstance: TDelphiLibSass;
 
     function ConvertToCss(const aScss: string): TScssResult;
     function ConvertFileToCss(const aFilename: String): TScssResult;
-    function CompileScssToCss(const aSass_Context: tSass_Context;
-      const aSass_Compiler: tSass_Compiler): TScssResult;
-
   end;
 
 implementation
