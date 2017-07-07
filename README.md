@@ -49,6 +49,6 @@ https://github.com/novuslogic/DelphiLibSass/tree/master/Sample
 
 ## ToDo
 
-To include TSass_Option class._
+To include TSass_Option class.
 
 
