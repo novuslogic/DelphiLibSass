@@ -3,9 +3,9 @@ program Sample;
 uses
   Vcl.Forms,
   Main in 'Main.pas' {frmMain},
-  DelphiLibSass in '..\Source\DelphiLibSass.pas',
-  DelphiLibSassCommon in '..\Source\DelphiLibSassCommon.pas',
-  DelphiLibSassLib in '..\Source\DelphiLibSassLib.pas';
+  DelphiLibSass in '..\Source\core\DelphiLibSass.pas',
+  DelphiLibSassCommon in '..\Source\core\DelphiLibSassCommon.pas',
+  DelphiLibSassLib in '..\Source\core\DelphiLibSassLib.pas';
 
 {$R *.res}
 
