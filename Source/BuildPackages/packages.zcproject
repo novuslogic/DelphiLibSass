@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project>
+  <outputconsole>true</outputconsole>
+  <messageslogpath></messageslogpath>
+  <Createoutputdir>true</Createoutputdir>
+  
+  <projectitem name = "LibSass_Core.dpk">
+    <template>[%templatepath%]package.dpk</template>
+    <properties></properties>
+    <overrideoutput>true</overrideoutput>
+    <output>[%outputpath%][%VARIABLECMDLINE.DELPHIVER%]\</output>
+    <package_description>DelphiLibSass Runtime - Core</package_description>
+    <package_requires>Core_requires.pas</package_requires>
+    <package_contains>Core_contains.pas</package_contains>
+    <package_name>LibSass_Core</package_name>
+  </projectitem>
+
+  <projectitem name = "LibSass_Core.dproj">
+    <template>[%templatepath%]package.dproj</template>
+    <properties></properties>
+    <overrideoutput>true</overrideoutput>
+    <output>[%outputpath%][%VARIABLECMDLINE.DELPHIVER%]\</output>
+    <package_description>DelphiLibSass Runtime - Core</package_description>
+    <package_name>LibSass_Core</package_name>
+    <MainSource>LibSass_Core.dpk</MainSource>
+  </projectitem>
+</project>

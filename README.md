@@ -4,6 +4,10 @@ DelphiLibSass is Delphi wrapper around [libsass](https://github.com/sass/libsass
 
 Based on the version of `libsass 3.4` http://libsass.org 
 
+## Support
+
+Delphi 2009 to Delphi 10.2
+
 ## Usage
 
 DelphiLibSass API is simply composed of a main `TDelphiLibSass` class
@@ -42,6 +46,10 @@ end;
 Basic example on how to use the Delphi wrapper
 
 https://github.com/novuslogic/DelphiLibSass/tree/master/Sample
+
+## Packages
+
+- Support for Runtime Packages Delphi 2009 to Delphi 10.2
 
 ## Known Issues
 

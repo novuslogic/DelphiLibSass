@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<projectconfig>
+   <properties> 
+     <outputpath>D:\Projects\DelphiLibSass\Source\Packages\</outputpath>
+     <propertiespath>D:\Projects\DelphiLibSass\Source\BuildPackages\Properties\</propertiespath>
+     <templatepath>D:\Projects\DelphiLibSass\Source\BuildPackages\Templates\</templatepath>
+   </properties>
+  
+</projectconfig>
