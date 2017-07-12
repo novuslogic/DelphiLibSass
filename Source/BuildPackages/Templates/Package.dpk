@@ -1,4 +1,3 @@
-{$I ..\..\core\NovusCodeLibrary.inc}
 package <%projectitem.package_name%>;
 
 {$R *.res}
