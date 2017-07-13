@@ -2,11 +2,11 @@
 
 DelphiLibSass is Delphi wrapper around [libsass](https://github.com/sass/libsass) a C/C++ implementation of a Sass compiler.
 
-Based on the version of `libsass 3.4` http://libsass.org 
+Based on the version of `libsass 3.4.5` http://libsass.org 
 
 ## Support
 
-Delphi 2009 to Delphi 10.2
+- Delphi 2009 to Delphi 10.2
 
 ## Usage
 
@@ -17,8 +17,9 @@ DelphiLibSass API is simply composed of a main `TDelphiLibSass` class
 ```
 Try
   FDelphiLibSass := TDelphiLibSass.Create('libsass.dll');
+  FDelphiLibSass.LoadDLL;
 
-  FScssResult = FDelphiLibSass.ConvertToCss('div {color: #FFF;}');
+  FScssResult := FDelphiLibSass.ConvertToCss('$font-stack:    Helvetica, sans-serif;');
 
   writeln(FScssResult.CSS);
 Finally
@@ -32,8 +33,9 @@ end;
 ```
 Try
   FDelphiLibSass := TDelphiLibSass.Create('libsass.dll');
+  FDelphiLibSass.LoadDLL;
 
-  FScssResult = FDelphiLibSass.ConvertFileToCss('test.scss');
+  FScssResult := FDelphiLibSass.ConvertFileToCss('test.scss');
 
   writeln(FScssResult.CSS);
 Finally

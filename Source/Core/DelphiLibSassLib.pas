@@ -65,10 +65,8 @@ begin
   if fsLibraryFilename = '' then
     fsLibraryFilename := cLibSassName;
 
-  //fDLLHandle := LoadLibrary(PWideChar(fsLibraryFilename));
-  fDLLHandle := GetModuleHandle(PWideChar(fsLibraryFilename));
-  if fDLLHandle = 0 then
-    fDLLHandle := LoadLibrary(PWideChar(fsLibraryFilename));
+
+  fDLLHandle := LoadLibrary(PWideChar(fsLibraryFilename));
   if fDLLHandle =0 then
     raise EDelphiLibSassError.Create('Unable to Load DLL');
 

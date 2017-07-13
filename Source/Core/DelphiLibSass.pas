@@ -64,7 +64,7 @@ begin
     Exit;
 
   fSass_Data_Context := sass_make_data_context(LibSassString(aScss));
-  //if Not Assigned(fSass_Data_Context) then
+
   if fSass_Data_Context = 0 then
     raise EDelphiLibSassError.Create('sass_make_data_context failed');
   fSass_Context := fSass_Data_Context;
@@ -146,13 +146,13 @@ begin
 
   Try
     fSass_File_Context := sass_make_file_context(LibSassString(aFilename));
-  //  if Not Assigned(fSass_File_Context) then
+
     if fSass_File_Context = 0 then
       raise EDelphiLibSassError.Create('sass_make_file_context failed');
     fSass_Context := fSass_File_Context;
 
     fSass_Compiler := sass_make_file_compiler(fSass_File_Context);
-   // if Not Assigned(fSass_Compiler) then
+
    if fSass_Compiler = 0 then
       raise EDelphiLibSassError.Create('sass_make_file_compiler failed');
 
