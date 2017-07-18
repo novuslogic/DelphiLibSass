@@ -19,7 +19,7 @@ Try
   FDelphiLibSass := TDelphiLibSass.Create('libsass.dll');
   FDelphiLibSass.LoadDLL;
 
-  FScssResult := FDelphiLibSass.ConvertToCss('$font-stack:    Helvetica, sans-serif;');
+  FScssResult := FDelphiLibSass.ConvertToCss('$font-stack: Helvetica, sans-serif; body { font: 100% $font-stack; }');
 
   writeln(FScssResult.CSS);
 Finally

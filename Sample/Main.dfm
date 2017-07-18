@@ -47,10 +47,6 @@ object frmMain: TfrmMain
     object ConvertToCss: TTabSheet
       Caption = 'ConvertToCss Example'
       ImageIndex = 1
-      ExplicitLeft = 8
-      ExplicitTop = 28
-      ExplicitWidth = 671
-      ExplicitHeight = 0
       object btnsasstocss2: TButton
         Left = 3
         Top = 3
