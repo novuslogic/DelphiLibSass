@@ -70,14 +70,14 @@ begin
   fSass_Context := fSass_Data_Context;
 
   Try
-    fSass_Compiler := sass_make_data_compiler(fSass_Data_Context);
+    fSass_Compiler := sass_make_data_compiler( fSass_Context );
 
     Result := CompileScssToCss(fSass_Context, fSass_Compiler);
 
   Finally
-    sass_delete_compiler(fSass_Compiler);
+   // sass_delete_compiler(fSass_Compiler);
 
-    sass_delete_data_context(fSass_Context);
+    sass_delete_data_context(fSass_Data_Context);
   End;
 end;
 
@@ -89,8 +89,6 @@ var
   fsMap: String;
   fifilesCount: Integer;
   fSass_included_files: TSass_included_files;
-  I: Integer;
-  fSass_IncludeFiles: PSass_IncludeFiles;
 begin
   Try
     sass_compiler_parse(aSass_Compiler);
@@ -103,6 +101,9 @@ begin
 
     fsMap := '';
   Finally
+     fsMap := sass_context_get_source_map_string(aSass_Context);
+
+    //fsMap := sass_context_get_source_map_string(aSass_Context);
     (*
 
       // Include Sass Option
@@ -116,20 +117,6 @@ begin
     Result := TScssResult.Create;
     Result.CSS := fsCSS;
     Result.Map := fsMap;
-
-    if fifilesCount <> 0 then
-    begin
-      (*
-      Length(fSass_IncludeFiles.IncludeFile, fifilesCount);
-
-      fSass_IncludeFiles := sass_context_get_included_files(aSass_Context);  // Buffer overflow issue
-
-      fSass_IncludeFiles.IncludeFile := NIL;
-
-      for I := 0 to fifilesCount - 1 do
-        Result.IncludeFiles.Add(fSass_IncludeFiles[I].IncludeFile);
-      *)
-    end;
   End;
 end;
 
@@ -153,7 +140,7 @@ begin
 
     fSass_Compiler := sass_make_file_compiler(fSass_File_Context);
 
-   if fSass_Compiler = 0 then
+    if fSass_Compiler = 0 then
       raise EDelphiLibSassError.Create('sass_make_file_compiler failed');
 
     Result := CompileScssToCss(fSass_Context, fSass_Compiler);

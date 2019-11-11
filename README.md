@@ -4,6 +4,11 @@ DelphiLibSass is Delphi wrapper around [libsass](https://github.com/sass/libsass
 
 Based on the version of `libsass 3.4.5` http://libsass.org 
 
+Source at github https://github.com/sass/libsass
+
+https://github.com/sass/libsass/blob/master/docs/api-doc.md
+
+
 ## Support
 
 - Delphi 2009 to Delphi 10.2

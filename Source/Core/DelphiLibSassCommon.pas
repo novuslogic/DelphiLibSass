@@ -41,6 +41,8 @@ type
 
   Tsass_make_data_context =  function(source_string: PAnsiChar): TSass_Data_Context; StdCall;
   Tsass_make_data_compiler = function(Sass_Data_Context: TSass_Data_Context): TSass_Compiler; StdCall;
+  Tsass_context_get_source_map_string  = function(Sass_Data_Context: TSass_Data_Context):  PAnsiChar; StdCall;
+
 
   TSassOutputStyle = (Nested, Expanded, Compact, Compressed);
 

@@ -39,6 +39,7 @@ type
      procedure sass_delete_data_context(Sass_Data_Context: TSass_Data_Context);
      function sass_make_data_context(source_string: PAnsiChar): TSass_Data_Context;
      function sass_make_data_compiler(Sass_Data_Context: TSass_Data_Context): TSass_Compiler;
+     function sass_context_get_source_map_string(Sass_Data_Context: TSass_Data_Context): string;
 
      property DLLLoaded: boolean
       read fbDLLLoaded;
@@ -369,6 +370,21 @@ begin
     raise EDelphiLibSassError.Create('GetProcAddress cannot find sass_make_data_compiler');
 
   result := fsass_make_data_compiler(Sass_Data_Context);
+end;
+
+
+function TDelphiLibSassLib.sass_context_get_source_map_string(Sass_Data_Context: TSass_Data_Context): String;
+var
+  fsass_context_get_source_map_string : Tsass_context_get_source_map_string ;
+begin
+  if fbDllLoaded  = false then
+    raise EDelphiLibSassError.Create('DLL not loaded');
+
+  @fsass_context_get_source_map_string := GetProcAddress(fDLLHandle, 'sass_context_get_source_map_string');
+  if (@fsass_context_get_source_map_string = nil) then
+    raise EDelphiLibSassError.Create('GetProcAddress cannot find sass_context_get_source_map_string');
+
+  result := fsass_context_get_source_map_string(Sass_Data_Context);
 end;
 
 end.
